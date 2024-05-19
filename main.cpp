@@ -43,7 +43,7 @@ public:
         t2 = new TextBox(this, 50, 250, 250, 30, text2, 3);
         n1 = new NumBox(this, 400, 30, 60, 30, 10, 200, -200); //x, y, size_x, size_y, szam, max, min
         n2 = new NumBox(this, 400, 250, 80, 30, 0, 100, -100);*/
-        c1 = new Comment (this, window_size/2, 25, 150, 10);
+        c1 = new Comment (this, window_size/2, 25, 150, 15);
         for (int x = box_size; x < window_size-box_size; x=x+box_size) {
             for (int y = box_size; y < window_size-box_size; y=y+box_size) {
                 p1 = new PlayBox(this, x, y, box_size, box_size);

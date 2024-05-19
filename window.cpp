@@ -21,9 +21,8 @@ int Window::fillere(){
     }
 }
 
-vector<vector<int>>table(17, vector<int>(17, 0));
+vector<vector<int>>table(18, vector<int>(18, 0));
 bool checkDirection( int row, int col, int dr, int dc, int player) {
-    int count = 0;
     for (int i = 0; i < 5; ++i) {
         int r = row + i * dr;
         int c = col + i * dc;
@@ -41,17 +40,33 @@ int Window::checkWin() {
         for (int col = 0; col < m; ++col) {
             if (table[row][col] != 0) {
                 int player = table[row][col];
-                if (checkDirection(row, col, 0, 1, player) || // Check horizontal
-                    checkDirection(row, col, 1, 0, player) || // Check vertical
-                    checkDirection(row, col, 1, 1, player) || // Check diagonal down-right
-                    checkDirection(row, col, 1, -1, player))  // Check diagonal down-left
+                if (checkDirection(row, col, 0, 1, player) ||
+                    checkDirection(row, col, 1, 0, player) ||
+                    checkDirection(row, col, 1, 1, player) ||
+                    checkDirection(row, col, 1, -1, player))
                 {
                     return player;
                 }
             }
         }
     }
-    return 0; // No winner
+    return 0;
+}
+bool Window::full(){
+    int counter = 0;
+    for (int i = 0; i < 18; ++i) {
+        for (int j = 0; j <= 18 ; ++j) {
+            if(table[i][j] != 0){
+                counter++;
+            }
+        }
+    }
+    if(counter == 17*17){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 void Window::event_loop() {
     event ev;
@@ -59,10 +74,10 @@ void Window::event_loop() {
     bool checked=false;
     int focus = -1;
     while(gin >> ev) {
+        if(!full()){
         if (ev.type == ev_mouse && ev.button == btn_left) {
             for (size_t i = 0; i<_widgets.size(); i++) {
                 if (_widgets[i]->is_selected(ev.pos_x, ev.pos_y)) {
-                    cout << "Widget " << i << " activated." << endl ;
                     focus = i;
                     checked=false;
                     table[_widgets[focus]->data()][_widgets[focus]->data2()]=fillere();
@@ -88,13 +103,16 @@ void Window::event_loop() {
         }
         gout << refresh;
     }
-    ofstream f("ki.txt");
-    for(int a = 0; a<17;a++){{
-            for(int b = 0;b<17;b++){
+    }
+    ofstream f("ellenorzes.txt");
+    for(int a = 0; a<18;a++){{
+            for(int b = 0;b<18;b++){
                 f << table[a][b] << " ";
             }
             f << endl;
         }
     }
+
+
     f.close();
 }

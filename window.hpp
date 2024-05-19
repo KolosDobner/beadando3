@@ -21,6 +21,7 @@ public:
     void close();
     int fillere();
     int checkWin();
+    bool full();
 };
 
 #endif // WINDOW_H
